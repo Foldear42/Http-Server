@@ -16,10 +16,13 @@ int main() {
     my_addr.sin_family = AF_INET;
     my_addr.sin_addr.s_addr = inet_addr("10.12.110.57");
     my_addr.sin_port = htons(PORT);
-    memset(&(my_addr.sin_zero), '/0', 8);
+    memset(&(my_addr.sin_zero), '\0', 8);
 
     // Assign an address to the sockfd
     // The cast is necessary because bind does not accept the struct sockaddr_in 
     bind(sockfd, (struct sockaddr *) &my_addr, sizeof(my_addr));
+    // Listen for incoming connection 
+    listen(sockfd, 5);
+    
     return 0;
 }
