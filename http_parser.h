@@ -10,7 +10,7 @@
 #include <sys/wait.h>
 #include <signal.h>
 
-typedef struct 
+typedef struct
 {
     char method[16];
     char uri[128];

@@ -12,6 +12,3 @@
 
 #define PORT 5863
 #define MAXDATASIZE 200
-
-
-

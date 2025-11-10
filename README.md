@@ -2,6 +2,12 @@
 
 This project is an attempt to make a short HTTP server in plain C.
 
+## Environment
+
+```
+Compiler : GCC 13.3.0
+Standard : C11
+```
 ## Features
 
 - [x] Server Connection Handling
