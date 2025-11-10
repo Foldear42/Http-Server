@@ -10,8 +10,11 @@
 #include <sys/wait.h>
 #include <signal.h>
 
-#define PORT 5863
-#define MAXDATASIZE 200
+typedef struct 
+{
+    char method[16];
+    char uri[128];
+    char http_version[16];
+} http_request_line;
 
-
-
+http_request_line parse_request_line(char *string_request);

@@ -6,7 +6,7 @@ This project is an attempt to make a short HTTP server in plain C.
 
 - [x] Server Connection Handling
 - [ ] HTTP Parser
-    - [ ] Parse request line (method, URI, version)
+    - [x] Parse request line (method, URI, version)
 	- [ ] Parse HTTP headers
 	- [ ] Validate request format (struct)
 - [ ] HTTP Responses
