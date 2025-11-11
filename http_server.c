@@ -62,17 +62,17 @@ int main()
         {
             perror("recv");
         }
-        // parse the HTTP request
         request_line = parse_request_line(buf);
-        printf("%s\n%s\n", request_line.method, request_line.uri);
-        if ((strcmp(request_line.method, "GET") == 0) && (strcmp(request_line.uri, "/") == 0))
+        if ((strncmp(request_line.method, "GET", 3) == 0) && (strncmp(request_line.uri, "/", 1) == 0))
         {
-            // good format with crlf
+            http_request_line new_request_line;
             char *rep = "HTTP/1.1 200 OK\r\n\r\n";
+            char *file_str = file_to_char("index.html");
             if (send(new_fd, rep, strlen(rep), 0) == -1)
             {
                 perror("send");
             }
+            free(file_str);
             // close the connection with the client
             close(new_fd);
         }

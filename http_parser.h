@@ -10,6 +10,8 @@
 #include <sys/wait.h>
 #include <signal.h>
 
+#define MAXSIZE 1024
+
 typedef struct
 {
     char method[16];
@@ -18,3 +20,5 @@ typedef struct
 } http_request_line;
 
 http_request_line parse_request_line(char *string_request);
+
+char *file_to_char(char *file_string);
