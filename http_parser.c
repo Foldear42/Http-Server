@@ -36,10 +36,9 @@ char *file_to_char(char *file_string)
         perror("fopen");
         exit(0);
     }
-
-    while (!feof(fptr))
+    // When reaching
+    while ((c = fgetc(fptr)) != EOF)
     {
-        c = fgetc(fptr);
         *res++ = c;
         if (res == &res[MAXSIZE - 1])
             break;

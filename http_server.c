@@ -62,17 +62,20 @@ int main()
         {
             perror("recv");
         }
+
         request_line = parse_request_line(buf);
         if ((strncmp(request_line.method, "GET", 3) == 0) && (strncmp(request_line.uri, "/", 1) == 0))
         {
             http_request_line new_request_line;
-            char *rep = "HTTP/1.1 200 OK\r\n\r\n";
+            char *response_line = "HTTP/1.1 200 OK\r\n\r\n";
             char *file_str = file_to_char("index.html");
-            if (send(new_fd, rep, strlen(rep), 0) == -1)
+            char response[1024];
+            snprintf(response, MAXSIZE - 1, "%s%s", response_line, file_str);
+            if (send(new_fd, response, strlen(response), 0) == -1)
             {
                 perror("send");
             }
-            free(file_str);
+            free(response);
             // close the connection with the client
             close(new_fd);
         }
