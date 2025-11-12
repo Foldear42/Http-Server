@@ -11,8 +11,8 @@
 #include <signal.h>
 
 #define MAXDATASIZE 1024
-#define GET "GET"
 
+// HTTP first line
 typedef struct
 {
     char method[16];
@@ -20,31 +20,37 @@ typedef struct
     char http_version[16];
 } http_request_line;
 
+// HTTP Header
 typedef struct
 {
-    char server_name[16];
+    char host[16];
+} http_request_header;
 
-} http_response_header;
-
+// Full HTTP request
 typedef struct
 {
-    char content_type[16];
-} http_representation_header;
+    http_request_line request_line;
+    http_request_header request_header;
+    char body[1024];
+} http_request;
 
-typedef struct
-{
-    char status_line[16];
-    http_response_header response_header;
-    http_representation_header reprensentation_header;
-    char response_body[MAXDATASIZE];
-} http_response;
-
+/*
+ * Find the header in a string
+ */
+size_t find_header(const char *string_request, const char *header_name, char *output);
+/*
+ * Parse full request into a http_request struct
+ */
+void parse_request(http_request *request, const char *string_request);
+/*
+ * Parse the header of a HTTP request
+ */
+void parse_request_header(http_request_header *rh, const char *string_request);
 /*
  * Parse the request line of a HTTP request
  */
-http_request_line parse_request_line(char *string_request);
-
+void parse_request_line(http_request_line *rl, const char *string_request);
 /*
  * Read all bytes in the file and put them into a buffer
  */
-char *file_to_char(char *file_string);
+void file_to_char(const char *file_string, char *output);

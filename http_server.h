@@ -9,6 +9,7 @@
 #include <arpa/inet.h>
 #include <sys/wait.h>
 #include <signal.h>
+#include <fcntl.h>
 
 #define PORT 5863
 

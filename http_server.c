@@ -8,17 +8,18 @@ int main()
     int yes = 1;
 
     sockfd = socket(AF_INET, SOCK_STREAM, 0); // 0 choose the correct protocol based on the type
+    // fcntl(sockfd, F_SETFL, O_NONBLOCK);
     if (sockfd == -1)
     {
         perror("socket");
-        exit(1);
+        exit(EXIT_FAILURE);
     }
 
     // Allow the program to reuse the port
     if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int)) == -1)
     {
         perror("setsockopt");
-        exit(1);
+        exit(EXIT_FAILURE);
     }
 
     my_addr.sin_family = AF_INET;
@@ -31,14 +32,14 @@ int main()
     if (bind(sockfd, (struct sockaddr *)&my_addr, sizeof(my_addr)) == -1)
     {
         perror("bind");
-        exit(1);
+        exit(EXIT_FAILURE);
     }
 
     // Listen for incoming connection
     if (listen(sockfd, 5) == -1)
     {
         perror("listen");
-        exit(1);
+        exit(EXIT_FAILURE);
     }
 
     // Main loop : handling connections
@@ -52,38 +53,38 @@ int main()
 
 void handle_connection(int sockfd)
 {
-    int new_fd, len_msg, bytes_sent;
+    int client_fd, len_msg, bytes_sent;
     int sin_size = sizeof(struct sockaddr_in);
     char client_data[MAXDATASIZE];
     struct sockaddr_in their_addr;
-    http_request_line request_line;
+    http_request client_request;
 
-    if ((new_fd = accept(sockfd, (struct sockaddr *)&their_addr, &sin_size)) == -1)
+    if ((client_fd = accept(sockfd, (struct sockaddr *)&their_addr, &sin_size)) == -1)
     {
         perror("accept");
     }
     printf("[Server] request from %s\n", inet_ntoa(their_addr.sin_addr));
     // data send by the client
-    if (recv(new_fd, client_data, MAXDATASIZE - 1, 0) == -1)
+    if (recv(client_fd, client_data, MAXDATASIZE - 1, 0) == -1)
     {
         perror("recv");
     }
 
-    request_line = parse_request_line(client_data);
-
-    if ((strncmp(request_line.method, "GET", 3) == 0) && (strncmp(request_line.uri, "/", 1) == 0))
+    parse_request(&client_request, client_data);
+    if ((strncmp(client_request.request_line.method, "GET", 3) == 0) && (strncmp(client_request.request_line.uri, "/", 1) == 0))
     {
         char *response_line = "HTTP/1.1 200 OK\r\n";
         char *response_header = "Content-Type: text/html\r\n\r\n";
-        char *file_str = file_to_char("index.html");
+        char file_data[512];
+        file_to_char("index.html", file_data);
         char response[1024];
-        snprintf(response, MAXDATASIZE - 1, "%s%s%s", response_line, response_header, file_str);
-        if (send(new_fd, response, strlen(response), 0) == -1)
+        snprintf(response, MAXDATASIZE - 1, "%s%s%s", response_line, response_header, file_data);
+        if (send(client_fd, response, strlen(response), 0) == -1)
         {
             perror("send");
         }
-        free(file_str);
-        // close the connection with the client
-        close(new_fd);
     }
+
+    // close the connection with the client
+    close(client_fd);
 }
