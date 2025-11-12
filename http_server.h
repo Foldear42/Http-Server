@@ -11,4 +11,5 @@
 #include <signal.h>
 
 #define PORT 5863
-#define MAXDATASIZE 200
+
+void handle_connection(int client_fd);

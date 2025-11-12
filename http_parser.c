@@ -6,10 +6,6 @@ http_parser.c : function for parsing and validating HTTP requests
 
 #include "http_parser.h"
 
-/*
- * Parse the request line of a HTTP request
- */
-
 http_request_line parse_request_line(char *string_request)
 {
     http_request_line request_line;
@@ -20,15 +16,11 @@ http_request_line parse_request_line(char *string_request)
     return request_line;
 }
 
-/*
- * Read all bytes in the file and put them into a buffer
- */
-
 char *file_to_char(char *file_string)
 {
     size_t size = 0;
     int c;
-    char *res = malloc(MAXSIZE);
+    char *res = malloc(MAXDATASIZE);
     char *ptr = res;
     FILE *fptr;
     if ((fptr = fopen(file_string, "rb")) == NULL)
@@ -40,7 +32,7 @@ char *file_to_char(char *file_string)
     while ((c = fgetc(fptr)) != EOF)
     {
         *res++ = c;
-        if (res == &res[MAXSIZE - 1])
+        if (res == &res[MAXDATASIZE - 1])
             break;
     }
     // null terminate
