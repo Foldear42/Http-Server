@@ -13,18 +13,18 @@ Standard : C11
 - [x] Server Connection Handling
 - [ ] HTTP Parser
     - [x] Parse request line (method, URI, version)
-	- [ ] Parse HTTP headers
+	- [x] Parse HTTP headers
 	- [ ] Validate request format (struct)
 - [ ] HTTP Responses
 	- [x] **200 OK**
-		- [ ] Send a minimal HTML page with correct response headers
+		- [x] Send a minimal HTML page with correct response headers
 	- [ ] **400 Bad Request**
 	- [ ] **403 Forbidden**
-	- [ ] **404 Not Found**
+	- [x] **404 Not Found**
 	- [ ] **500 Internal Server Error**
 	- [ ] **501 Not Implemented**
 - [ ] File Handling
-	- [ ] Check if requested file exists
+	- [x] Check if requested file exists
     - [ ] Serve HTML files
 	- [ ] Serve binary files (images, PDFs, etc.)
 	- [ ] Handle subdirectory requests

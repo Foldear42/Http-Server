@@ -10,7 +10,8 @@
 #include <sys/wait.h>
 #include <signal.h>
 
-#define MAXDATASIZE 1024
+#define MAX_RESPONSE_SIZE 1024
+#define MAX_FILE_DATA_SIZE 100000 // 100 ko
 
 // HTTP first line
 typedef struct
@@ -51,6 +52,10 @@ void parse_request_header(http_request_header *rh, const char *string_request);
  */
 void parse_request_line(http_request_line *rl, const char *string_request);
 /*
+ * Check if the request is valid
+ */
+int is_request_valid(http_request *request);
+/*
  * Read all bytes in the file and put them into a buffer
  */
-void file_to_char(const char *file_string, char *output);
+int file_to_char(const char *file_string, char *output);
