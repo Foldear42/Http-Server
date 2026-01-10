@@ -1,3 +1,6 @@
+![category](https://img.shields.io/badge/Category-Network--Programming-blue)
+![Language](https://img.shields.io/badge/Language-C-purple)
+
 # HTTP Server
 
 This project is an attempt to make a short HTTP server in plain C.
